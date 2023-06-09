@@ -27,7 +27,19 @@ export class AppComponent implements OnInit {
       audio.load();
       audio.play();
 
-      $("#songTitle").val($("#thefile").val().split(' - ')[1].replace('.mp3', ''))
+      //Splits the string of the file name by - and selects the second array index, then strips common music file extensions
+      $("#songTitle").val($("#thefile").val().split('-')[1]
+        .replace('.mp3', '')
+        .replace('.m4a', '')
+        .replace('.wav', '')
+        .replace('.ogg', '')
+        .replace('.webm', '')
+        .replace('.flac', '')
+        .replace('.opus', '')
+        .replace('.oga', '')
+        .replace('.mid', '')
+        .replace('.webp', '')
+        .replace('.midi', ''))
       $("#titleHeading").text($("#songTitle").val());
       $("#songTitle").hide();
       $("#thefile").hide();
