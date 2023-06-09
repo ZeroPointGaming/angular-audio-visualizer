@@ -93,45 +93,66 @@ export class AudioVisualizationService {
       gradient.addColorStop(0.8, "#cc00cc"); // Purple
       gradient.addColorStop(1, "#ffff00"); // Yellow
 
+      const CircleGradient =  ctx.createLinearGradient(0, canvas.height / 2 - waveformRadius, 0, canvas.height / 2 + waveformRadius);
+      CircleGradient.addColorStop(0, "#005eff"); // Blue
+      CircleGradient.addColorStop(0.5, "#ff68ff"); // Pink
+      CircleGradient.addColorStop(0.8, "#cc00cc"); // Purple
+      CircleGradient.addColorStop(1, "#ffff00"); // Yellow
+
       const barWidth = (2 * Math.PI * innerCircleRadius) / bufferLength;
+      const MAX_SCALE = 1.2; // Adjust this value as needed
 
       function renderFrame() {
         requestAnimationFrame(renderFrame);
-
+      
         analyser.getByteFrequencyData(dataArray);
-
+      
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+        // Get bass value
+        const BASS_FREQ_RANGE_START = 20;   // start of bass frequency range in Hz
+        const BASS_FREQ_RANGE_END = 100;    // end of bass frequency range in Hz
+        const freqBinSize = context.sampleRate / 2 / bufferLength; // size of each frequency bin in Hz
 
+        const bassDataStartIndex = Math.round(BASS_FREQ_RANGE_START / freqBinSize);
+        const bassDataEndIndex = Math.round(BASS_FREQ_RANGE_END / freqBinSize);
+
+        const bassDataArray = dataArray.slice(bassDataStartIndex, bassDataEndIndex); // get only the bass frequencies
+        const bassValue = bassDataArray.reduce((a, b) => a + b) / bassDataArray.length;
+        const bassScale = 1 + ((bassValue / 255) * (MAX_SCALE - 1));
+      
         const sliceAngle = (2 * Math.PI) / bufferLength;
-
+      
         for (let i = 0; i < bufferLength; i++) {
           const frequency = (i / bufferLength) * (context.sampleRate / 2);
           let amplitude = dataArray[i] / 128;
-
+      
           if (frequency > 10000) {
-            amplitude *= 1.5;
+            //amplitude *= 1.5;
           }
-
-          const barHeight = amplitude * (waveformRadius - innerCircleRadius);
+      
+          // Apply bassScale to height and width
+          const barHeight = bassScale * amplitude * (waveformRadius - innerCircleRadius);
           const angle = sliceAngle * i - Math.PI / 2;
           const centerX = canvas.width / 2;
           const centerY = canvas.height / 2;
-          const startX = centerX + Math.cos(angle) * innerCircleRadius;
-          const startY = centerY + Math.sin(angle) * innerCircleRadius;
-          const endX = centerX + Math.cos(angle) * (innerCircleRadius + barHeight);
-          const endY = centerY + Math.sin(angle) * (innerCircleRadius + barHeight);
-
+          const startX = centerX + Math.cos(angle) * (innerCircleRadius * bassScale);
+          const startY = centerY + Math.sin(angle) * (innerCircleRadius * bassScale);
+          const endX = centerX + Math.cos(angle) * ((innerCircleRadius + barHeight) * bassScale);
+          const endY = centerY + Math.sin(angle) * ((innerCircleRadius + barHeight) * bassScale);
+      
           ctx.beginPath();
           ctx.moveTo(startX, startY);
           ctx.lineTo(endX, endY);
           ctx.strokeStyle = gradient;
-          ctx.lineWidth = barWidth;
+          ctx.lineWidth = bassScale * barWidth; // Apply bassScale to lineWidth
           ctx.stroke();
         }
-
+      
+        // Apply bassScale to the inner circle as well
         ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, innerCircleRadius, 0, 2 * Math.PI);
-        ctx.strokeStyle = "#ffffff";
+        ctx.arc(canvas.width / 2, canvas.height / 2, innerCircleRadius * bassScale, 0, 2 * Math.PI);
+        ctx.strokeStyle = CircleGradient;
         ctx.lineWidth = 3;
         ctx.stroke();
       }

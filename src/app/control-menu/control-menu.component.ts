@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, Input } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -9,8 +9,13 @@ import * as bootstrap from 'bootstrap';
 export class ControlMenuComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileNameInput') fileNameInput!: ElementRef<HTMLInputElement>;
+  @Input() audio!: HTMLMediaElement;
 
   constructor() {}
+
+  ngAfterViewInit() {
+    $('#controlMenuModal').modal('show');
+  }
 
   @HostListener('document:keydown.escape')
   openModal() {
@@ -27,5 +32,7 @@ export class ControlMenuComponent {
     }
   }
 
-  play() { } //Executes the play function in the main component.
+  play() { 
+    this.audio.play();
+  }
 }

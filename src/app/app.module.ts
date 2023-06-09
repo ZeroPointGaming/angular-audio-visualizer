@@ -30,6 +30,7 @@ import { ControlMenuComponent } from './control-menu/control-menu.component';
   ],
   providers: [
     AudioVisualizationService,
+    { provide: '$', useValue: $ },
   ],
   bootstrap: [
     AppComponent,
