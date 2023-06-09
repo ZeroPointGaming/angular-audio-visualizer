@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output  } from '@angular/core';
 import { AudioVisualizationService } from './audio-visualization.service';
 
 declare var $: any; // Declare jQuery
@@ -11,6 +11,7 @@ declare var $: any; // Declare jQuery
 export class AppComponent implements OnInit {
   title = 'audio-visualizer';
   private audio!: HTMLMediaElement;
+  @Output() playEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private audioVisualizationService: AudioVisualizationService) {}
 
@@ -19,10 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    $('#startBtn').on('click', () => {
-      this.play();
-      $('#startBtn').hide();
-    });
+    $('#controlMenuModal').modal('show');
   }
 
   play() {

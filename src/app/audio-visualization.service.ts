@@ -11,7 +11,7 @@ export class AudioVisualizationService {
   constructor() { }
 
   visualizeAudio(): HTMLMediaElement {
-    const file = document.getElementById("thefile") as HTMLInputElement;
+    const file = document.getElementById("fileInput") as HTMLInputElement;
     this.audio = document.getElementById("audio") as HTMLMediaElement;
 
     file.onchange = (event) => {
@@ -22,8 +22,17 @@ export class AudioVisualizationService {
       if (!fileUrl) return;
 
       //Splits the string of the file name by - and selects the second array index, then strips common music file extensions
-      $("#songTitle").val($("#thefile").val().split('-')[1]
-        .replace('.mp3', '')
+      const fileNameInput = $("#fileInput").val();
+      let fileName = "";
+
+      if (fileNameInput.includes("-")) {
+        fileName = fileNameInput.split('-')[1];
+      } else {
+        const fileNameParts = fileNameInput.split("\\");
+        fileName = fileNameParts[fileNameParts.length - 1];
+      }
+
+      fileName = fileName.replace('.mp3', '')
         .replace('.m4a', '')
         .replace('.wav', '')
         .replace('.ogg', '')
@@ -33,17 +42,24 @@ export class AudioVisualizationService {
         .replace('.oga', '')
         .replace('.mid', '')
         .replace('.webp', '')
-        .replace('.midi', ''))
-      $("#titleHeading").text($("#songTitle").val());
-      $("#songTitle").hide();
-      $("#thefile").hide();
+        .replace('.midi', '');
+
+      $("#fileNameInput").val(fileName);
+      $("#titleHeading").text(fileName);
 
       this.audio.src = fileUrl;
       this.audio.load();
       this.audio.play();
 
+      this.audio.addEventListener('play', () => {
+        $('#controlMenuModal').modal('hide');
+      });
+
       this.audio.addEventListener('ended', () => {
-        $('#startBtn').show();
+        $('#controlMenuModal').modal('show');
+        $("#fileInput").val("");
+        $("#fileNameInput").val("");
+        $("#titleHeading").text("");
       });
 
       const context = new AudioContext();
@@ -169,16 +185,6 @@ export class AudioVisualizationService {
       renderFrame();
       renderFrame2();
     };
-
-    $(document).ready(function() {
-      $(document).on('keydown', function(event: any) {
-        if (event.key === "Escape") {
-          $("#songTitle").show();
-          $("#thefile").show();
-          $("#startBtn").show();
-        }
-      });
-    });
 
     return this.audio;
   }

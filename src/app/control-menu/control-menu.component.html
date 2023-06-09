@@ -1,0 +1,22 @@
+<!-- Control Menu Modal -->
+<div id="controlMenuModal" class="modal fade" tabindex="-1" aria-labelledby="controlMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="controlMenuModalLabel">Control Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="fileInput" class="form-label">Select File</label>
+          <input #fileInput id="fileInput" type="file" class="form-control" (change)="selectFile($event)">
+          
+          <label for="fileNameInput" class="form-label">File Name</label>
+          <input #fileNameInput id="fileNameInput" type="text" class="form-control" readonly>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="play()">Replay</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
