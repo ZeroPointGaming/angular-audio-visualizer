@@ -10,6 +10,7 @@ import { LighthouseVisualizerComponent } from './lighthouse-visualizer/lighthous
 import { TronSunsetVisualizerComponent } from './tron-sunset-visualizer/tron-sunset-visualizer.component';
 import { StarsVisualizerComponent } from './stars-visualizer/stars-visualizer.component';
 import { MultiImageParallaxVisualizerComponent } from './multi-image-parallax-visualizer/multi-image-parallax-visualizer.component';
+import { AudioVisualizationService } from './audio-visualization.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,11 @@ import { MultiImageParallaxVisualizerComponent } from './multi-image-parallax-vi
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    AudioVisualizationService,
+  ],
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule { }
