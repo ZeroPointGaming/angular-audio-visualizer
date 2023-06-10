@@ -16,10 +16,10 @@ export const COLORS_TOKEN = new InjectionToken<{[key: number]: string}>('colors'
     { 
       provide: COLORS_TOKEN, 
       useValue: {
-        0: "#005eff",
-        0.5: "#ff68ff",
+        0: "#cf120e",
+        0.5: "#e88215",
         0.8: "#cc00cc",
-        1: "#ffff00"
+        1: "#550794"
       }
     }
   ]

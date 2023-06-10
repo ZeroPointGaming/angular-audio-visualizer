@@ -1,1 +1,13 @@
-<p>multi-image-parallax-visualizer works!</p>
+<div class="component">
+    <h1 id="titleHeading"></h1>
+
+    <div id="canvasContainer">
+        <canvas id="canvas"></canvas>
+        <canvas id="canvas2"></canvas>
+    </div>
+
+    <audio id="audio"></audio>
+
+    <app-control-menu [audio]="audio"></app-control-menu>
+    <router-outlet></router-outlet>
+</div>

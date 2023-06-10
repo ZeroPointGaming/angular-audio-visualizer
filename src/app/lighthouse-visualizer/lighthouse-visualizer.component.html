@@ -1,6 +1,6 @@
-<p>lighthouse-visualizer works!</p>
-
-<div id="scene">
+<div class="component">
+  <h1 id="titleHeading"></h1>
+  <div id="scene">
     <div class="sky">
       <div class="stars layer" data-depth="0.3">
         <div class="star"></div>
@@ -178,3 +178,14 @@
       </div>
     </div>
   </div>
+
+  <div id="canvasContainer">
+    <canvas id="canvas"></canvas>
+    <canvas id="canvas2"></canvas>
+  </div>
+
+  <audio id="audio"></audio>
+
+  <app-control-menu [audio]="audio"></app-control-menu>
+  <router-outlet></router-outlet>
+</div>
