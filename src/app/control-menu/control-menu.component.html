@@ -14,8 +14,13 @@
           <input #fileNameInput id="fileNameInput" type="text" class="form-control" readonly>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="play()">Replay</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="play()">Replay</button>
+            <a routerLink="/tron" class="btn btn-link">Tron</a>
+            <a routerLink="/stars" class="btn btn-link">Starfield</a>
+            <a routerLink="/lighthouse" class="btn btn-link">Lighthouse</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
