@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,6 +14,7 @@ import { StarsVisualizerComponent } from './stars-visualizer/stars-visualizer.co
 import { MultiImageParallaxVisualizerComponent } from './multi-image-parallax-visualizer/multi-image-parallax-visualizer.component';
 import { AudioVisualizationService } from './audio-visualization.service';
 import { ControlMenuComponent } from './control-menu/control-menu.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { ControlMenuComponent } from './control-menu/control-menu.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [
     AudioVisualizationService,

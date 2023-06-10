@@ -1,4 +1,5 @@
 import { Injectable, Inject  } from '@angular/core';
+import { audit } from 'rxjs';
 
 declare var $: any; // Declare jQuery
 
@@ -240,5 +241,4 @@ export class AudioVisualizationService {
       this.audio.play();
     }
   }
-
 }
