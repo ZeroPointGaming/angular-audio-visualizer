@@ -13,12 +13,15 @@
           <label for="fileNameInput" class="form-label">File Name</label>
           <input #fileNameInput id="fileNameInput" type="text" class="form-control" readonly>
         </div>
+        <nav>
+          <a routerLink="/tron" class="btn btn-link">Tron</a>
+          <a routerLink="/stars" class="btn btn-link">Starfield</a>
+          <a routerLink="/lighthouse" class="btn btn-link">Lighthouse</a>
+          <a routerLink="/multi-image-parallax" class="btn btn-link">Scrolling Forest</a>
+        </nav>
         <div class="modal-footer">
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" (click)="play()">Replay</button>
-            <a routerLink="/tron" class="btn btn-link">Tron</a>
-            <a routerLink="/stars" class="btn btn-link">Starfield</a>
-            <a routerLink="/lighthouse" class="btn btn-link">Lighthouse</a>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
