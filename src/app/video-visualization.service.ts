@@ -1,12 +1,12 @@
-import { Injectable, Inject  } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 declare var $: any; // Declare jQuery
 
 @Injectable({
   providedIn: 'root'
 })
-export class AudioVisualizationService {
-  private audio!: HTMLMediaElement;
+export class VideoVisualizationService {
+  private video!: HTMLMediaElement;
 
   private colors: {[key: number]: string};
 
@@ -16,7 +16,7 @@ export class AudioVisualizationService {
 
   visualizeAudio(): HTMLMediaElement {
     const file = document.getElementById("fileInput") as HTMLInputElement;
-    this.audio = document.getElementById("audio") as HTMLMediaElement;
+    this.video = document.getElementById("video") as HTMLMediaElement;
 
     file.onchange = (event) => {
       const files = file.files;
@@ -51,25 +51,27 @@ export class AudioVisualizationService {
       $("#fileNameInput").val(fileName);
       $("#titleHeading").text(fileName);
 
-      setTimeout(() => {
-        this.audio.src = fileUrl;
-        this.audio.load();
-        this.audio.play();
-      }, 1000);
-
-      this.audio.addEventListener('play', () => {
+      this.video.addEventListener('play', () => {
         $('#controlMenuModal').modal('hide');
       });
 
-      this.audio.addEventListener('ended', () => {
-        $('#controlMenuModal').modal('show');
-        $("#fileInput").val("");
-        $("#fileNameInput").val("");
-        $("#titleHeading").text("");
+      setTimeout(() => {
+        this.video.src = fileUrl;
+        this.video.load();
+        this.video.play();
+      }, 1000);
+
+      this.video.addEventListener('ended', () => {
+        setTimeout(() => {
+          $('#controlMenuModal').modal('show');
+          $("#fileInput").val("");
+          $("#fileNameInput").val("");
+          $("#titleHeading").text("");
+        }, 1000);
       });
 
       const context = new AudioContext();
-      const src = context.createMediaElementSource(this.audio);
+      const src = context.createMediaElementSource(this.video);
       const analyser = context.createAnalyser();
 
       const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -183,9 +185,10 @@ export class AudioVisualizationService {
       resizeCanvas2();
 
       const gradient2 = ctx2.createLinearGradient(0, canvas2.height, 0, 0);
-      Object.entries(this.colors).forEach(([position, color]) => {
-        gradient2.addColorStop(Number(position), color);
-      });
+      gradient2.addColorStop(0, "#005eff"); // Blue
+      gradient2.addColorStop(0.25, "#cc00cc"); // Purple
+      gradient2.addColorStop(0.5, "#ff68ff"); // Pink
+      gradient2.addColorStop(1, "#ffff00"); // Yellow
 
       function renderFrame2() {
         requestAnimationFrame(renderFrame2);
@@ -214,31 +217,30 @@ export class AudioVisualizationService {
         ctx2.stroke();
       }
 
-      this.audio.play();
+      this.video.play();
       renderFrame();
       renderFrame2();
     };
 
-    return this.audio;
+    return this.video;
   }
 
   play() {
-    if (this.audio) {
-      this.audio.play();
+    if (this.video) {
+      this.video.play();
     }
   }
 
   pause() {
-    if (this.audio) {
-      this.audio.pause();
+    if (this.video) {
+      this.video.pause();
     }
   }
 
   replay() {
-    if (this.audio) {
-      this.audio.currentTime = 0;
-      this.audio.play();
+    if (this.video) {
+      this.video.currentTime = 0;
+      this.video.play();
     }
   }
-
 }
